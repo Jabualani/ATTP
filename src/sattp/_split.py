@@ -177,34 +177,34 @@ def sattp_split(
     use_minibatch = n_samples > 50_000
     records: list[dict[str, Any]] = []
 
-    for split in splits:
-        for n_clusters in range(min_clusters, max_clusters + 1):
-            if use_minibatch:
-                clusterer = MiniBatchKMeans(
-                    n_clusters=n_clusters,
-                    random_state=random_state,
-                    batch_size=4096,
-                    n_init="auto",
-                )
-            else:
-                clusterer = KMeans(
-                    n_clusters=n_clusters,
-                    random_state=random_state,
-                    n_init="auto",
-                )
-            cluster_labels = clusterer.fit_predict(reduced)
-            strata = pd.Series(
-                target.astype(str).to_numpy() + "\x1f" + cluster_labels.astype(str)
+    for n_clusters in range(min_clusters, max_clusters + 1):
+        if use_minibatch:
+            clusterer = MiniBatchKMeans(
+                n_clusters=n_clusters,
+                random_state=random_state,
+                batch_size=4096,
+                n_init="auto",
             )
-            counts = strata.value_counts()
-            singleton_positions = np.flatnonzero(strata.map(counts).to_numpy() == 1)
-            valid_positions = np.flatnonzero(strata.map(counts).to_numpy() > 1)
+        else:
+            clusterer = KMeans(
+                n_clusters=n_clusters,
+                random_state=random_state,
+                n_init="auto",
+            )
+        cluster_labels = clusterer.fit_predict(reduced)
+        strata = pd.Series(
+            target.astype(str).to_numpy() + "\x1f" + cluster_labels.astype(str)
+        )
+        counts = strata.value_counts()
+        singleton_positions = np.flatnonzero(strata.map(counts).to_numpy() == 1)
+        valid_positions = np.flatnonzero(strata.map(counts).to_numpy() > 1)
+        valid_strata = strata.iloc[valid_positions]
+        n_valid = len(valid_positions)
+        n_groups = valid_strata.nunique()
 
-            valid_strata = strata.iloc[valid_positions]
-            n_valid = len(valid_positions)
+        for split in splits:
             n_train = int(np.floor(n_valid * split))
             n_test = n_valid - n_train
-            n_groups = valid_strata.nunique()
             if n_groups == 0 or n_train < n_groups or n_test < n_groups:
                 continue
 

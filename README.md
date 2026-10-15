@@ -9,8 +9,8 @@ feature space*, so the test set covers the same sub-populations as the train set
 
 1. Reduce the features with **LDA**, using the fewest components that reach 85% of the explained
    variance (configurable).
-2. For each candidate cluster count, run **K-Means** on the LDA components
-   (`MiniBatchKMeans` above 50,000 rows).
+2. For each candidate cluster count, run **K-Means** once on the LDA components and reuse those
+   clusters across candidate train fractions (`MiniBatchKMeans` above 50,000 rows).
 3. Build strata from `class × cluster` and do a stratified split. Strata with a single member
    can't be split, so those rows always go to the train set.
 4. Score a classifier on every `(train fraction, n_clusters)` pair and return the split with the

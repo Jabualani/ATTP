@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import pytest
+from sklearn.cluster import KMeans
 from sklearn.linear_model import LogisticRegression
 
 from sattp import S_ATTP, NoValidSplitError, sattp_split
@@ -42,6 +43,28 @@ def test_split_result_preserves_indices_and_unpacks(classification_data):
     assert set(result.train_indices) | set(result.test_indices) == set(X.index)
     assert result.best_split == 0.7
     assert len(result.metrics) == 1
+
+
+def test_clusters_are_fitted_once_for_each_cluster_count(classification_data, monkeypatch):
+    X, y = classification_data
+    fitted_cluster_counts = []
+    original_fit_predict = KMeans.fit_predict
+
+    def count_fit_predict(self, *args, **kwargs):
+        fitted_cluster_counts.append(self.n_clusters)
+        return original_fit_predict(self, *args, **kwargs)
+
+    monkeypatch.setattr(KMeans, "fit_predict", count_fit_predict)
+    result = sattp_split(
+        X,
+        y,
+        splits=[0.65, 0.75],
+        min_clusters=2,
+        max_clusters=3,
+    )
+
+    assert fitted_cluster_counts == [2, 3]
+    assert len(result.metrics) == 4
 
 
 def test_legacy_wrapper_returns_frames_indices_and_metadata(classification_data):
