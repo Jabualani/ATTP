@@ -5,7 +5,7 @@ authors:
   - family-names: Monchwe
     given-names: Jabulani
     orcid: "https://orcid.org/0000-0003-1852-7356"
-version: 0.1.0
+version: 0.1.1
 url: "https://github.com/Jabualani/ATTP"
 repository-code: "https://github.com/Jabualani/ATTP"
 license: MIT
