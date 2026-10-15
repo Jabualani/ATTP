@@ -19,14 +19,20 @@ feature space*, so the test set covers the same sub-populations as the train set
 ## Install
 
 ```bash
-pip install git+https://github.com/Jabualani/S-ATTP.git
+pip install i-attp
+```
+
+Or install directly from GitHub:
+
+```bash
+pip install git+https://github.com/Jabualani/ATTP.git
 ```
 
 For development:
 
 ```bash
-git clone https://github.com/Jabualani/S-ATTP.git
-cd S-ATTP
+git clone https://github.com/Jabualani/ATTP.git
+cd ATTP
 pip install -e ".[dev]"
 pytest
 ```

@@ -3,7 +3,7 @@ requires = ["hatchling>=1.21"]
 build-backend = "hatchling.build"
 
 [project]
-name = "attp"
+name = "i-attp"
 version = "0.1.0"
 description = "S-ATTP: cluster-stratified train/test splitting on an LDA-reduced feature space."
 readme = "README.md"
@@ -36,9 +36,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Jabualani/S-ATTP"
-Repository = "https://github.com/Jabualani/S-ATTP"
-Issues = "https://github.com/Jabualani/S-ATTP/issues"
+Homepage = "https://github.com/Jabualani/ATTP"
+Repository = "https://github.com/Jabualani/ATTP"
+Issues = "https://github.com/Jabualani/ATTP/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/attp"]
