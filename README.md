@@ -54,6 +54,8 @@ result = sattp_split(
 
 X_train, y_train, X_test, y_test = result      # unpacks like a 4-tuple
 print(result.best_split, result.best_n_clusters, result.n_lda_components)
+print(result.explained_variance_ratio)          # ratio explained by each LDA component
+print(result.total_explained_variance)           # combined ratio for the selected components
 print(result.metrics.head())                    # every candidate, best first
 ```
 

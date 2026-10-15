@@ -43,6 +43,11 @@ def test_split_result_preserves_indices_and_unpacks(classification_data):
     assert set(result.train_indices) | set(result.test_indices) == set(X.index)
     assert result.best_split == 0.7
     assert len(result.metrics) == 1
+    assert len(result.explained_variance_ratio) == result.n_lda_components
+    assert result.total_explained_variance == pytest.approx(
+        sum(result.explained_variance_ratio)
+    )
+    assert 0.0 < result.total_explained_variance <= 1.0
 
 
 def test_clusters_are_fitted_once_for_each_cluster_count(classification_data, monkeypatch):

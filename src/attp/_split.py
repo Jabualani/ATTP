@@ -29,11 +29,17 @@ class SplitResult:
     best_split: float
     best_n_clusters: int
     n_lda_components: int
+    explained_variance_ratio: tuple[float, ...]
     train_score: float
     test_score: float
     metrics: pd.DataFrame
     train_indices: pd.Index
     test_indices: pd.Index
+
+    @property
+    def total_explained_variance(self) -> float:
+        """Total explained variance ratio across the selected LDA components."""
+        return sum(self.explained_variance_ratio)
 
     def __iter__(self) -> Iterator[pd.DataFrame | pd.Series]:
         yield self.X_train
@@ -177,6 +183,7 @@ def sattp_split(
     if verbose:
         print(
             f"LDA complete: {n_components} component(s); "
+            f"explained variance={lda.explained_variance_ratio_.sum():.3f}; "
             f"evaluating {max_clusters - min_clusters + 1} cluster counts "
             f"across {len(splits)} train fraction(s).",
             flush=True,
@@ -293,6 +300,7 @@ def sattp_split(
         best_split=float(best["Split"]),
         best_n_clusters=int(best["n_clusters"]),
         n_lda_components=n_components,
+        explained_variance_ratio=tuple(float(value) for value in lda.explained_variance_ratio_),
         train_score=float(best["train_score"]),
         test_score=float(best["test_score"]),
         metrics=metrics,
