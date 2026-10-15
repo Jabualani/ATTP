@@ -16,6 +16,10 @@ feature space*, so the test set covers the same sub-populations as the train set
 4. Score a classifier on every `(train fraction, n_clusters)` pair and return the split with the
    best test score.
 
+## Process flow diagram
+
+![ATTP process flow diagram](image.png)
+
 ## Install
 
 ```bash
