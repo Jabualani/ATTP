@@ -67,6 +67,34 @@ def test_clusters_are_fitted_once_for_each_cluster_count(classification_data, mo
     assert len(result.metrics) == 4
 
 
+def test_verbose_prints_progress_and_final_summary(classification_data, capsys):
+    X, y = classification_data
+
+    sattp_split(
+        X,
+        y,
+        splits=[0.7],
+        min_clusters=2,
+        max_clusters=2,
+        verbose=True,
+    )
+
+    output = capsys.readouterr().out
+    assert "Fitting LDA components" in output
+    assert "LDA complete:" in output
+    assert "Fitting clusters: k=2" in output
+    assert "Evaluated split=0.700, k=2:" in output
+    assert "Best split:" in output
+
+
+def test_verbose_false_does_not_print(classification_data, capsys):
+    X, y = classification_data
+
+    sattp_split(X, y, splits=[0.7], min_clusters=2, max_clusters=2)
+
+    assert capsys.readouterr().out == ""
+
+
 def test_legacy_wrapper_returns_frames_indices_and_metadata(classification_data):
     X, y = classification_data
     target = y.to_frame()

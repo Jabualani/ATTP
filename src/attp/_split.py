@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import logging
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass
 from typing import Any
@@ -12,7 +11,6 @@ from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.model_selection import train_test_split
 
-_LOGGER = logging.getLogger(__name__)
 ScoringFunction = Callable[[Any, pd.DataFrame, pd.Series], float]
 
 
@@ -164,6 +162,11 @@ def sattp_split(
     if not 0.0 <= variance_threshold <= 1.0:
         raise ValueError("variance_threshold must be between 0 and 1.")
 
+    if verbose:
+        print(
+            f"Fitting LDA components ({DR_Comps_Min}-{DR_Comps_Max})...",
+            flush=True,
+        )
     lda, n_components = _fit_lda(
         features,
         target,
@@ -171,6 +174,13 @@ def sattp_split(
         DR_Comps_Max,
         variance_threshold,
     )
+    if verbose:
+        print(
+            f"LDA complete: {n_components} component(s); "
+            f"evaluating {max_clusters - min_clusters + 1} cluster counts "
+            f"across {len(splits)} train fraction(s).",
+            flush=True,
+        )
     reduced = lda.transform(features)
     candidate_model = model if model is not None else LinearDiscriminantAnalysis()
     n_samples = len(features)
@@ -178,6 +188,8 @@ def sattp_split(
     records: list[dict[str, Any]] = []
 
     for n_clusters in range(min_clusters, max_clusters + 1):
+        if verbose:
+            print(f"Fitting clusters: k={n_clusters}...", flush=True)
         if use_minibatch:
             clusterer = MiniBatchKMeans(
                 n_clusters=n_clusters,
@@ -206,6 +218,12 @@ def sattp_split(
             n_train = int(np.floor(n_valid * split))
             n_test = n_valid - n_train
             if n_groups == 0 or n_train < n_groups or n_test < n_groups:
+                if verbose:
+                    print(
+                        f"  Skipping split={split:.3f}, k={n_clusters}: "
+                        "not enough rows per stratum.",
+                        flush=True,
+                    )
                 continue
 
             train_valid, test_positions = train_test_split(
@@ -243,8 +261,16 @@ def sattp_split(
                     "_test_positions": test_positions,
                 }
             )
+            if verbose:
+                print(
+                    f"  Evaluated split={split:.3f}, k={n_clusters}: "
+                    f"train={train_score:.3f}, test={test_score:.3f}.",
+                    flush=True,
+                )
 
     if not records:
+        if verbose:
+            print("No valid candidate split was found.", flush=True)
         raise NoValidSplitError(
             "No valid candidate split was found. Try different train fractions or cluster bounds."
         )
@@ -274,11 +300,12 @@ def sattp_split(
         test_indices=test_indices.copy(),
     )
     if verbose:
-        _LOGGER.info(
-            "Selected split %.3f with %d clusters (test score %.3f).",
-            result.best_split,
-            result.best_n_clusters,
-            result.test_score,
+        print(
+            "Best split: "
+            f"train fraction={result.best_split:.3f}, "
+            f"clusters={result.best_n_clusters}, "
+            f"test score={result.test_score:.3f}.",
+            flush=True,
         )
     return result
 

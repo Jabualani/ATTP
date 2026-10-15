@@ -61,7 +61,8 @@ Row labels of the original `X`/`y` are preserved in the outputs.
 
 Useful options: `model=` (any scikit-learn classifier used for scoring; defaults to LDA),
 `scoring=` (custom `(fitted_model, X, y) -> float`), `variance_threshold=`, `random_state=`,
-`verbose=True`. Set `DR_Comps_Min=` and `DR_Comps_Max=` to choose the LDA component range.
+`verbose=True` to print progress and the selected split. Set `DR_Comps_Min=` and
+`DR_Comps_Max=` to choose the LDA component range.
 
 ### Original function signature
 
