@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: "i-attp: Cluster-stratified train/test splitting on an LDA-reduced feature space"
+authors:
+  - family-names: Monchwe
+    given-names: Jabulani
+    orcid: "https://orcid.org/0000-0003-1852-7356"
+version: 0.1.0
+url: "https://github.com/Jabualani/ATTP"
+repository-code: "https://github.com/Jabualani/ATTP"
+license: MIT

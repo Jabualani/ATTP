@@ -86,3 +86,8 @@ X_tr, y_tr, X_te, y_te = S_ATTP(
 ## License
 
 MIT
+
+## Citation
+
+If you use this software, please cite it using the metadata in [CITATION.cff](CITATION.cff),
+or use GitHub's **Cite this repository** feature.
