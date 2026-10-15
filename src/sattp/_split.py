@@ -131,8 +131,8 @@ def sattp_split(
     splits: Sequence[float] = (0.7, 0.8),
     min_clusters: int = 2,
     max_clusters: int = 10,
-    min_lda_components: int = 1,
-    max_lda_components: int = 3,
+    DR_Comps_Min: int = 1,
+    DR_Comps_Max: int = 3,
     model: ClassifierMixin | None = None,
     scoring: ScoringFunction | None = None,
     variance_threshold: float = 0.85,
@@ -156,10 +156,10 @@ def sattp_split(
         raise ValueError("Cluster bounds must satisfy 1 <= min_clusters <= max_clusters.")
     if max_clusters > len(features):
         raise ValueError("max_clusters cannot exceed the number of input rows.")
-    if min_lda_components < 1 or max_lda_components < min_lda_components:
+    if DR_Comps_Min < 1 or DR_Comps_Max < DR_Comps_Min:
         raise ValueError(
             "LDA component bounds must satisfy "
-            "1 <= min_lda_components <= max_lda_components."
+            "1 <= DR_Comps_Min <= DR_Comps_Max."
         )
     if not 0.0 <= variance_threshold <= 1.0:
         raise ValueError("variance_threshold must be between 0 and 1.")
@@ -167,8 +167,8 @@ def sattp_split(
     lda, n_components = _fit_lda(
         features,
         target,
-        min_lda_components,
-        max_lda_components,
+        DR_Comps_Min,
+        DR_Comps_Max,
         variance_threshold,
     )
     reduced = lda.transform(features)
@@ -310,8 +310,8 @@ def S_ATTP(
             splits=Splits,
             min_clusters=Min_clusters,
             max_clusters=Max_Clusters,
-            min_lda_components=DR_Comps_Min,
-            max_lda_components=DR_Comps_Max,
+            DR_Comps_Min=DR_Comps_Min,
+            DR_Comps_Max=DR_Comps_Max,
             model=accuracy_model,
             verbose=verbose,
         )

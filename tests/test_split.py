@@ -29,6 +29,8 @@ def test_split_result_preserves_indices_and_unpacks(classification_data):
         splits=[0.7],
         min_clusters=2,
         max_clusters=2,
+        DR_Comps_Min=1,
+        DR_Comps_Max=3,
         model=LogisticRegression(max_iter=500),
         random_state=4,
     )
