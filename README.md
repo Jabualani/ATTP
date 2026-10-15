@@ -1,4 +1,4 @@
-# sattp
+# attp (Adaptive Train Test Partitioner)
 
 Cluster-stratified train/test splitting on an LDA-reduced feature space (S-ATTP).
 
@@ -16,9 +16,8 @@ feature space*, so the test set covers the same sub-populations as the train set
 4. Score a classifier on every `(train fraction, n_clusters)` pair and return the split with the
    best test score.
 
-## Process flow diagram
-
-![ATTP process flow diagram](image.png)
+## Process Flow Diagram
+![process flow diagram](image.png)
 
 ## Install
 
@@ -90,8 +89,3 @@ X_tr, y_tr, X_te, y_te = S_ATTP(
 ## License
 
 MIT
-
-## Citation
-
-If you use this software, please cite it using the metadata in [CITATION.cff](CITATION.cff),
-or use GitHub's **Cite this repository** feature.
