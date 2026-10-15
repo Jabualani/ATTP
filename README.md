@@ -34,7 +34,7 @@ pytest
 ## Usage
 
 ```python
-from sattp import sattp_split
+from attp import sattp_split
 
 result = sattp_split(
     X, y,
@@ -59,7 +59,7 @@ Useful options: `model=` (any scikit-learn classifier used for scoring; defaults
 `S_ATTP` keeps the original call signature for existing code:
 
 ```python
-from sattp import S_ATTP
+from attp import S_ATTP
 
 X_tr, y_tr, X_te, y_te = S_ATTP(
     X_df, y_df, "target_col", [0.7, 0.8], 2, 10, 1, 3, None, "frames", False, False

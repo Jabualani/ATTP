@@ -1,5 +1,5 @@
 from sklearn.datasets import load_iris
-from sattp import sattp_split
+from attp import sattp_split
 
 data = load_iris(as_frame=True)
 result = sattp_split(

@@ -3,13 +3,13 @@ requires = ["hatchling>=1.21"]
 build-backend = "hatchling.build"
 
 [project]
-name = "sattp"
+name = "attp"
 version = "0.1.0"
 description = "S-ATTP: cluster-stratified train/test splitting on an LDA-reduced feature space."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Jabulani Monchwe" }]
+authors = [{ name = "Jabulani Monchwe", email ="MonchweJ.25@gmail.com" }]
 keywords = ["machine-learning", "train-test-split", "stratification", "lda", "kmeans"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -41,7 +41,7 @@ Repository = "https://github.com/Jabualani/S-ATTP"
 Issues = "https://github.com/Jabualani/S-ATTP/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/sattp"]
+packages = ["src/attp"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

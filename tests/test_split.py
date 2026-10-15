@@ -4,7 +4,7 @@ import pytest
 from sklearn.cluster import KMeans
 from sklearn.linear_model import LogisticRegression
 
-from sattp import S_ATTP, NoValidSplitError, sattp_split
+from attp import S_ATTP, NoValidSplitError, sattp_split
 
 
 @pytest.fixture
