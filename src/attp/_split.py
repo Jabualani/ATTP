@@ -128,7 +128,7 @@ def _fit_lda(
     return selected, selected_components
 
 
-def sattp_split(
+def s_attp_clf(
     X: pd.DataFrame | np.ndarray,
     y: pd.Series | pd.DataFrame | Sequence[Any] | np.ndarray,
     *,
@@ -142,7 +142,9 @@ def sattp_split(
     variance_threshold: float = 0.85,
     random_state: int | None = 0,
     verbose: bool = False,
-) -> SplitResult:
+    test_size: float | None = None,
+    dr_reducer: bool = False,
+) -> SplitResult | tuple[SplitResult, LinearDiscriminantAnalysis]:
     """Find a high-scoring cluster-stratified train/test split.
 
     LDA and clustering are fitted on the full input before splitting, so the
@@ -152,6 +154,10 @@ def sattp_split(
     features = _as_features(X)
     target = _as_target(y, features.index)
 
+    if test_size is not None:
+        if not 0.0 < test_size < 1.0:
+            raise ValueError("test_size must be strictly between 0 and 1.")
+        splits = (1.0 - test_size,)
     if len(splits) == 0:
         raise ValueError("splits must contain at least one train fraction.")
     if any(not 0.0 < split < 1.0 for split in splits):
@@ -315,7 +321,10 @@ def sattp_split(
             f"test score={result.test_score:.3f}.",
             flush=True,
         )
-    return result
+    return (result, lda) if dr_reducer else result
+
+
+sattp_split = s_attp_clf
 
 
 def S_ATTP(
@@ -339,7 +348,7 @@ def S_ATTP(
         raise ValueError("return_type must be either 'frames' or 'indices'.")
 
     try:
-        result = sattp_split(
+        result = s_attp_clf(
             Input_X_df,
             Input_y_df[Target_Var_],
             splits=Splits,

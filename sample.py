@@ -1,8 +1,9 @@
 from sklearn.datasets import load_iris
-from attp import sattp_split
+
+from attp import s_attp_clf
 
 data = load_iris(as_frame=True)
-result = sattp_split(
+result = s_attp_clf(
     data.data,
     data.target,
     splits=[0.7],

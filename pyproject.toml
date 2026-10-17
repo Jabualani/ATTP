@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "i-attp"
-version = "0.1.2"
+version = "0.2.0"
 description = "S-ATTP: cluster-stratified train/test splitting on an LDA-reduced feature space."
 readme = "README.md"
 requires-python = ">=3.10"
