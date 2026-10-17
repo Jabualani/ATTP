@@ -17,7 +17,7 @@ feature space*, so the test set covers the same sub-populations as the train set
    best test score.
 
 ## Process Flow Diagram
-![process flow diagram](image.png)
+![process flow diagram](https://raw.githubusercontent.com/Jabualani/ATTP/main/image.png)
 
 ## Install
 
@@ -48,6 +48,7 @@ pytest
 | `0.2.0` | The classifier's preferred name is `s_attp_clf`; `sattp_split` and `S_ATTP` remain available. Adds classification, regression, time-series, and clustering variants, including `s_attp_clustered_sampling`. |
 | `0.2.1` | Includes the ATTP Framework Reference Architecture PDF in the repository and package distributions. |
 | `0.2.2` | Expands the README with parameter references and examples for classification and clustered sampling. |
+| `0.2.3` | Uses absolute GitHub URLs for the README image and framework PDF so both resolve in the PyPI description. |
 
 The `0.2.0` release also adds the optional `dr_reducer=True` output for retrieving a fitted
 dimensionality reducer. The original `s_attp_clf` call continues to return its `SplitResult` by
@@ -63,7 +64,7 @@ result = s_attp_clf(X, y)
 ```
 
 Existing code can continue importing `sattp_split` or `S_ATTP`. Documentation-only changes do not
-inherently require a version bump; this update is designated as `0.2.2` and synchronizes the
+inherently require a version bump; this update is designated as `0.2.3` and synchronizes the
 package metadata. For future releases, reserve patch increments for bug fixes and documentation
 updates, and use a minor increment for backward-compatible API additions while the project remains
 in the `0.x` series. Review return shapes and behavior before each release.
@@ -233,7 +234,7 @@ X_train, X_test = s_attp_clustered_sampling(X, test_size=0.2)
 X_inliers, X_outliers = s_attp_clustered_sampling(X, o_i=True)
 ```
 
-The [ATTP Framework Reference Architecture Documentation](<./ATTP Framework Reference Architecture Documentation.pdf>)
+The [ATTP Framework Reference Architecture Documentation](https://github.com/Jabualani/ATTP/blob/main/ATTP%20Framework%20Reference%20Architecture%20Documentation.pdf)
 describes the library's concepts and variants. It is included in the GitHub repository and in the
 installed `attp` package.
 
